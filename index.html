@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pine & Pino Space ❤️</title>
+    <style>
+        :root {
+            --pink-cewek: #ff758f; 
+            --biru-cowok: #4cc9f0; 
+            --bg-romantis: #fff0f3;
+            --teks: #590d22;
+            --putih: #ffffff;
+        }
+
+        body, html {
+            margin: 0; padding: 0;
+            background-color: var(--bg-romantis);
+            font-family: 'Segoe UI', sans-serif;
+            color: var(--teks);
+            overflow-x: hidden;
+        }
+
+        /* --- SAMPUL --- */
+        #sampul {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+            background: linear-gradient(135deg, var(--pink-cewek) 0%, var(--biru-cowok) 100%);
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            z-index: 1000; transition: 1s; color: white; cursor: pointer; text-align: center;
+        }
+
+        /* --- NAVIGASI --- */
+        .nav-bawah {
+            position: fixed; bottom: 0; left: 0; width: 100%;
+            background: var(--putih); display: none; justify-content: space-around;
+            padding: 12px 0; box-shadow: 0 -5px 15px rgba(0,0,0,0.05); z-index: 900;
+        }
+        .nav-item { font-size: 22px; cursor: pointer; opacity: 0.4; transition: 0.3s; }
+        .nav-item.active-nav { opacity: 1; transform: scale(1.2); }
+
+        /* --- KONTEN --- */
+        .halaman { display: none; padding: 20px 20px 100px 20px; flex-direction: column; align-items: center; }
+        .aktif { display: flex; animation: fadeIn 0.5s; }
+        @keyframes fadeIn { from {opacity: 0;} to {opacity: 1;} }
+
+        .container { max-width: 480px; width: 100%; }
+        .card { background: var(--putih); border-radius: 20px; padding: 20px; margin-bottom: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+
+        /* --- USER SELECTOR --- */
+        .user-selector { display: flex; gap: 10px; margin-bottom: 15px; }
+        .user-btn { flex: 1; padding: 10px; border-radius: 10px; border: 1px solid #eee; cursor: pointer; text-align: center; font-weight: bold; }
+        .user-btn.pine.active { background: var(--pink-cewek); color: white; border-color: var(--pink-cewek); }
+        .user-btn.pino.active { background: var(--biru-cowok); color: white; border-color: var(--biru-cowok); }
+
+        /* --- LUDO GAME --- */
+        .board {
+            display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px;
+            background: #eee; padding: 10px; border-radius: 10px; margin-bottom: 20px;
+        }
+        .cell {
+            aspect-ratio: 1/1; background: white; border-radius: 5px;
+            display: flex; justify-content: center; align-items: center;
+            font-size: 10px; position: relative; font-weight: bold; border: 1px solid #ddd;
+        }
+        .cell-event { background: #fff0f3; color: var(--pink-cewek); border: 1px solid var(--pink-cewek); }
+        .cell-finish { background: #ffd700; font-size: 14px; }
+        .token {
+            width: 25px; height: 25px; border-radius: 50%; border: 2px solid white;
+            position: absolute; z-index: 10; transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .token-pine { background: var(--pink-cewek); transform: translate(-4px, -4px); }
+        .token-pino { background: var(--biru-cowok); transform: translate(4px, 4px); }
+
+        .btn { border: none; padding: 12px; border-radius: 12px; width: 100%; font-weight: bold; cursor: pointer; color: white; }
+        
+        /* Grid Absen */
+        .grid-absen { display: grid; grid-template-columns: repeat(15, 1fr); gap: 3px; }
+        .hari { width: 100%; aspect-ratio: 1/1; background: #eee; border-radius: 2px; }
+        .hari.pine-active { background: var(--pink-cewek); }
+        .hari.pino-active { background: var(--biru-cowok); }
+    </style>
+</head>
+<body>
+
+<div id="sampul" onclick="bukaWeb()">
+    <h1 style="font-size: 50px; margin: 0;">🌸 & 🌲</h1>
+    <h2 style="letter-spacing: 5px;">PINE & PINO</h2>
+    <p>Ketuk untuk masuk ke ruang kita</p>
+</div>
+
+<div id="hal-home" class="halaman aktif">
+    <div class="container">
+        <div class="card" style="text-align:center;">
+            <h2 id="timer" style="color: var(--pink-cewek); margin:0;">... Hari</h2>
+            <p style="font-size:14px; opacity:0.7;">Bersama Sejak 01 Januari 2024</p>
+            <div class="user-selector" style="margin-top:15px;">
+                <div id="sel-pine" class="user-btn pine active" onclick="setUser('pine')">PINE 🌸</div>
+                <div id="sel-pino" class="user-btn pino" onclick="setUser('pino')">PINO 🌲</div>
+            </div>
+        </div>
+        <div class="card">
+            <h3>📸 Kalender LDR</h3>
+            <div style="margin-top:10px;">
+                <p style="font-size: 11px; font-weight: bold; color: var(--pink-cewek);">Progress Pine 🌸</p>
+                <div class="grid-absen" id="grid-pine"></div>
+                <p style="font-size: 11px; font-weight: bold; color: var(--biru-cowok); margin-top:15px;">Progress Pino 🌲</p>
+                <div class="grid-absen" id="grid-pino"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="hal-wish" class="halaman">
+    <div class="container">
+        <div class="card">
+            <h3>✨ Bucket List</h3>
+            <div id="list-wish"></div>
+            <div style="display:flex; gap:5px; margin-top:10px;">
+                <input type="text" id="input-wish" placeholder="Tambah janji baru..." style="flex:1; padding:10px; border-radius:10px; border:1px solid #ddd; outline:none;">
+                <button id="btn-wish" class="btn" style="width:50px; background:var(--pink-cewek);" onclick="tambahWish()">+</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="hal-game" class="halaman">
+    <div class="container">
+        <div class="card" style="text-align:center;">
+            <h3>🎲 Ludo Rindu</h3>
+            <p style="font-size:11px; margin-bottom:15px; opacity:0.8;">Hati-hati di kotak pink, ada pesan kejutan! ❤️</p>
+            
+            <div class="board" id="board"></div>
+
+            <div style="background:#fdf2f4; padding:15px; border-radius:15px; border:1px solid #ffe5ec;">
+                <div id="dice-result" style="font-size:60px; margin-bottom:10px;">🎲</div>
+                <button id="btn-roll" class="btn" style="background:var(--teks)" onclick="kocokDadu()">KOCOK DADU</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="nav-bawah" id="menu">
+    <div class="nav-item active-nav" onclick="gantiHal('hal-home', this)">🏠</div>
+    <div class="nav-item" onclick="gantiHal('hal-wish', this)">✨</div>
+    <div class="nav-item" onclick="gantiHal('hal-game', this)">🎲</div>
+</div>
+
+<script>
+    let currentUser = 'pine';
+    let pinePos = 0;
+    let pinoPos = 0;
+
+    const specialCells = {
+        3: "Awal yang manis! Sebutkan 1 hal yang kamu suka dari dia. ❤️",
+        5: "Oops! Mundur 2 langkah karena terlalu kangen. 🏃‍♂️",
+        8: "Kirim emoji 'Love' paling banyak ke chat dia sekarang! 🌸",
+        12: "ZONA NYAMAN: Maju 3 langkah karena kamu bikin dia bahagia! ✨",
+        15: "TANTANGAN: Kirim PAP muka jelek kamu sekarang juga! 📸",
+        18: "Hampir sampai! Bilang 'I Love You' lewat VN. 🎤"
+    };
+
+    let db = JSON.parse(localStorage.getItem('pinePinoUltimate')) || {
+        pineAbsen: 0, pinoAbsen: 0, tglJadian: "2024-01-01", wishlist: []
+    };
+
+    function bukaWeb() {
+        document.getElementById('sampul').style.opacity = '0';
+        setTimeout(() => {
+            document.getElementById('sampul').style.display = 'none';
+            document.getElementById('menu').style.display = 'flex';
+            initApp();
+        }, 800);
+    }
+
+    function initApp() {
+        hitungHari();
+        renderGrids();
+        renderWishlist();
+        createBoard();
+        setUser('pine');
+    }
+
+    function gantiHal(id, el) {
+        document.querySelectorAll('.halaman').forEach(h => h.classList.remove('aktif'));
+        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active-nav'));
+        document.getElementById(id).classList.add('aktif');
+        el.classList.add('active-nav');
+    }
+
+    function setUser(u) {
+        currentUser = u;
+        document.querySelectorAll('.user-btn').forEach(b => b.classList.remove('active'));
+        document.getElementById('sel-' + u).classList.add('active');
+        const warna = u === 'pine' ? 'var(--pink-cewek)' : 'var(--biru-cowok)';
+        document.getElementById('btn-wish').style.backgroundColor = warna;
+    }
+
+    function createBoard() {
+        const board = document.getElementById('board');
+        board.innerHTML = '';
+        for(let i=1; i<=20; i++) {
+            const cell = document.createElement('div');
+            cell.className = 'cell';
+            if (specialCells[i]) cell.classList.add('cell-event');
+            cell.id = 'cell-' + i;
+            cell.innerText = i === 20 ? '🏠' : i;
+            board.appendChild(cell);
+        }
+        updateTokens();
+    }
+
+    function kocokDadu() {
+        const roll = Math.floor(Math.random() * 6) + 1;
+        document.getElementById('dice-result').innerText = ['⚀','⚁','⚂','⚃','⚄','⚅'][roll-1];
+        
+        if(currentUser === 'pine') {
+            pinePos = Math.min(20, pinePos + roll);
+            checkEvent(pinePos, 'pine');
+        } else {
+            pinoPos = Math.min(20, pinoPos + roll);
+            checkEvent(pinoPos, 'pino');
+        }
+        updateTokens();
+        if(pinePos === 20 || pinoPos === 20) alert("Yeeey! " + currentUser.toUpperCase() + " Sampai di Finish! ❤️");
+    }
+
+    function checkEvent(pos, user) {
+        if (specialCells[pos]) {
+            setTimeout(() => {
+                alert(`KOTAK ${pos}: \n${specialCells[pos]}`);
+                if (pos === 5) {
+                    if (user === 'pine') pinePos -= 2; else pinoPos -= 2;
+                    updateTokens();
+                } else if (pos === 12) {
+                    if (user === 'pine') pinePos += 3; else pinoPos += 3;
+                    updateTokens();
+                }
+            }, 600);
+        }
+    }
+
+    function updateTokens() {
+        document.querySelectorAll('.token').forEach(t => t.remove());
+        if(pinePos > 0) {
+            const t = document.createElement('div');
+            t.className = 'token token-pine';
+            document.getElementById('cell-' + pinePos).appendChild(t);
+        }
+        if(pinoPos > 0) {
+            const t = document.createElement('div');
+            t.className = 'token token-pino';
+            document.getElementById('cell-' + pinoPos).appendChild(t);
+        }
+    }
+
+    function hitungHari() {
+        const hari = Math.floor((new Date() - new Date(db.tglJadian)) / (1000*60*60*24));
+        document.getElementById('timer').innerText = `${hari} Hari Bersama ❤️`;
+    }
+
+    function tambahWish() {
+        const isi = document.getElementById('input-wish').value;
+        if(isi) { 
+            db.wishlist.push({ teks: isi, oleh: currentUser }); 
+            renderWishlist(); 
+            document.getElementById('input-wish').value=''; 
+            localStorage.setItem('pinePinoUltimate', JSON.stringify(db));
+        }
+    }
+
+    function renderWishlist() {
+        document.getElementById('list-wish').innerHTML = db.wishlist.map(w => `
+            <div style="font-size:12px; margin-bottom:5px; padding:10px; background:#fdf2
