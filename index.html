@@ -3,145 +3,151 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Pine & Pino Universe ❤️</title>
+    <title>Pine & Pino Universe 2026 ❤️</title>
     <style>
         :root { --pink: #ff758f; --biru: #4cc9f0; --bg: #fff5f7; --teks: #590d22; --soft: #ffe5ec; --gold: #ffb703; }
-        body, html { margin: 0; padding: 0; background-color: var(--bg); font-family: 'Segoe UI', sans-serif; color: var(--teks); overflow-x: hidden; scroll-behavior: smooth; }
+        body, html { margin: 0; padding: 0; background-color: var(--bg); font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: var(--teks); overflow-x: hidden; scroll-behavior: smooth; }
 
-        /* --- DEKORASI --- */
-        .floating { position: fixed; z-index: 1; opacity: 0.4; animation: float 3s infinite ease-in-out; pointer-events: none; }
-        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+        /* --- DEKORASI PERNAK PERNIK --- */
+        .sparkle { position: fixed; pointer-events: none; z-index: 1; opacity: 0.5; animation: float 4s infinite ease-in-out; font-size: 20px; }
+        @keyframes float { 0%, 100% { transform: translateY(0) rotate(0); } 50% { transform: translateY(-20px) rotate(15deg); } }
 
-        /* --- SCANNER --- */
+        /* --- SCANNER SCREEN --- */
         #face-id-screen { position: fixed; inset: 0; background: white; z-index: 10000; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: 1s; }
-        .ring { width: 220px; height: 220px; border-radius: 50%; padding: 8px; background: linear-gradient(45deg, var(--pink), var(--biru)); animation: rotate 2s linear infinite; }
-        @keyframes rotate { 100% { filter: hue-rotate(360deg); } }
-        #webcam { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 4px solid white; box-sizing: border-box; }
+        .camera-ring { width: 220px; height: 220px; border-radius: 50%; padding: 8px; background: linear-gradient(45deg, var(--pink), var(--gold), var(--biru)); animation: rotateRing 3s linear infinite; box-shadow: 0 0 30px rgba(255, 117, 143, 0.3); }
+        @keyframes rotateRing { 100% { filter: hue-rotate(360deg); } }
+        #webcam { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 4px solid white; box-sizing: border-box; transform: scaleX(-1); }
 
         /* --- LAYOUT UTAMA --- */
         #main-content { display: none; padding-bottom: 120px; }
-        .header { padding: 60px 20px; text-align: center; background: linear-gradient(135deg, var(--pink), var(--biru)); color: white; border-radius: 0 0 50px 50px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); position: relative; }
+        .header { padding: 60px 20px; text-align: center; background: linear-gradient(135deg, var(--pink), var(--biru)); color: white; border-radius: 0 0 50px 50px; position: relative; overflow: hidden; }
         .container { max-width: 450px; margin: -40px auto 0; padding: 0 20px; position: relative; z-index: 10; }
-        .card { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border-radius: 30px; padding: 25px; margin-bottom: 25px; border: 2px solid white; box-shadow: 0 15px 35px rgba(255, 117, 143, 0.1); position: relative; overflow: hidden; }
+        .card { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border-radius: 30px; padding: 25px; margin-bottom: 25px; border: 2px solid white; box-shadow: 0 15px 35px rgba(255, 117, 143, 0.1); }
 
-        /* --- HALAMAN --- */
-        .halaman { display: none; animation: slideUp 0.5s ease forwards; }
+        /* --- HALAMAN SYSTEM --- */
+        .halaman { display: none; animation: slideUp 0.6s cubic-bezier(0.18, 0.89, 0.32, 1.28) forwards; }
         .aktif { display: block !important; }
-        @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* --- KALENDER --- */
-        .grid-cal { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; text-align: center; }
+        /* --- KALENDER STYLE --- */
+        .grid-cal { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; text-align: center; }
         .day-header { font-size: 11px; font-weight: bold; padding: 10px 0; color: #888; }
-        .date { aspect-ratio: 1/1; display: flex; align-items: center; justify-content: center; font-size: 12px; border-radius: 12px; cursor: pointer; transition: 0.3s; background: #fffcfc; border: 1px solid #eee; }
-        .holiday { color: #d00000 !important; background: #ffebeb !important; font-weight: bold; border-color: #ffcccc; }
-        .filled-pine { background: var(--pink) !important; color: white; transform: scale(0.9); box-shadow: 0 4px 10px var(--pink); }
-        .filled-pino { background: var(--biru) !important; color: white; transform: scale(0.9); box-shadow: 0 4px 10px var(--biru); }
+        .date { aspect-ratio: 1/1; display: flex; align-items: center; justify-content: center; font-size: 13px; border-radius: 12px; cursor: pointer; transition: 0.3s; background: #fff; border: 1px solid #eee; }
+        .holiday { color: #d00000 !important; background: #ffebeb !important; font-weight: bold; border-color: #ffcccc !important; }
+        .filled-pine { background: var(--pink) !important; color: white; border: none; box-shadow: 0 4px 10px var(--pink); }
+        .filled-pino { background: var(--biru) !important; color: white; border: none; box-shadow: 0 4px 10px var(--biru); }
+        .current-day { border: 2px solid var(--gold) !important; font-weight: 900; animation: pulseDay 2s infinite; background: #fffdf0; }
+        @keyframes pulseDay { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
 
-        /* --- NAVIGASI --- */
-        .nav-bar { position: fixed; bottom: 20px; left: 20px; right: 20px; background: white; height: 75px; border-radius: 40px; display: flex; justify-content: space-around; align-items: center; box-shadow: 0 15px 40px rgba(0,0,0,0.2); z-index: 1000; border: 1px solid var(--soft); }
-        .nav-link { font-size: 24px; opacity: 0.2; cursor: pointer; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        .nav-link.active { opacity: 1; color: var(--pink); transform: translateY(-15px) scale(1.2); }
+        /* --- NAVIGASI STYLE --- */
+        .nav-bar { position: fixed; bottom: 20px; left: 20px; right: 20px; background: white; height: 75px; border-radius: 40px; display: flex; justify-content: space-around; align-items: center; box-shadow: 0 15px 40px rgba(0,0,0,0.15); z-index: 1000; border: 1px solid var(--soft); }
+        .nav-link { font-size: 24px; opacity: 0.2; cursor: pointer; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); position: relative; }
+        .nav-link.active { opacity: 1; color: var(--pink); transform: translateY(-15px) scale(1.3); }
+
+        /* --- BUTTONS --- */
+        .btn { border: none; padding: 12px 25px; border-radius: 20px; font-weight: bold; cursor: pointer; transition: 0.3s; width: 100%; }
+        .btn-pink { background: var(--pink); color: white; box-shadow: 0 5px 15px rgba(255,117,143,0.3); }
+        .btn-ghost { background: #f0f0f0; color: #666; }
 
         /* --- MODAL --- */
         #modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 11000; align-items: center; justify-content: center; padding: 30px; }
-        .modal-box { background: white; padding: 30px; border-radius: 40px; text-align: center; border: 4px solid var(--pink); max-width: 300px; }
+        .modal-box { background: white; padding: 30px; border-radius: 40px; text-align: center; border: 4px solid var(--pink); max-width: 320px; }
 
-        /* --- BUTTONS --- */
-        .btn { border: none; padding: 12px 25px; border-radius: 20px; font-weight: bold; cursor: pointer; transition: 0.3s; width: 100%; margin-top: 10px; }
-        .btn-pink { background: var(--pink); color: white; box-shadow: 0 5px 15px rgba(255,117,143,0.3); }
-        
-        /* --- PROGRESS BAR --- */
+        /* --- MISC --- */
         .p-bar { height: 12px; background: #eee; border-radius: 6px; overflow: hidden; margin: 15px 0; }
-        .p-fill { height: 100%; width: 60%; background: linear-gradient(to right, var(--pink), var(--gold)); transition: 1s; }
+        .p-fill { height: 100%; width: 0%; background: linear-gradient(to right, var(--pink), var(--gold)); transition: 1s cubic-bezier(0.1, 0.7, 0.1, 1); }
+        .coupon { border: 2px dashed var(--pink); padding: 15px; border-radius: 20px; background: var(--soft); margin-bottom: 15px; position: relative; }
     </style>
 </head>
 <body>
 
-<div class="floating" style="top:10%; left:5%; font-size: 30px;">🌸</div>
-<div class="floating" style="top:25%; right:10%; font-size: 20px;">✨</div>
-<div class="floating" style="bottom:20%; left:8%; font-size: 25px;">❤️</div>
+<div class="sparkle" style="top:5%; left:10%;">✨</div>
+<div class="sparkle" style="top:20%; right:10%;">🌸</div>
+<div class="sparkle" style="bottom:30%; left:5%;">💖</div>
+<div class="sparkle" style="bottom:15%; right:15%;">⭐</div>
 
 <div id="modal" onclick="this.style.display='none'">
     <div class="modal-box">
         <h2 id="m-title" style="margin:0; color:var(--pink);"></h2>
         <hr style="border: 1px solid var(--soft); margin: 15px 0;">
         <p id="m-desc" style="font-size: 14px; line-height: 1.6;"></p>
-        <button class="btn btn-pink">Faham ❤️</button>
+        <button class="btn btn-pink">Tutup</button>
     </div>
 </div>
 
 <div id="face-id-screen">
-    <div class="ring"><video id="webcam" autoplay playsinline></video></div>
-    <h2 style="color:var(--pink); margin-top:25px;">Mengenali Belahan Jiwa...</h2>
-    <p style="font-size:12px; opacity:0.6; padding:0 50px;">Sila lihat kamera untuk mengesahkan identiti cinta anda.</p>
-    <button class="btn btn-pink" style="width:200px; margin-top:20px;" onclick="startApp()">Masuk Semesta ❤️</button>
+    <div class="camera-ring"><video id="webcam" autoplay playsinline></video></div>
+    <h2 style="color:var(--pink); margin-top:25px;">Verifikasi Belahan Jiwa</h2>
+    <p style="font-size:12px; opacity:0.6; padding:0 50px; text-align:center;">Sistem memindai aura kebahagiaan di wajahmu...</p>
+    <button class="btn btn-pink" style="width:220px; margin-top:20px;" onclick="startApp()">Masuk Ke Semesta ❤️</button>
 </div>
 
 <div id="main-content">
     <div class="header">
-        <h1 style="margin:0; letter-spacing: 6px;">PINE & PINO</h1>
-        <div style="font-size: 10px; opacity: 0.8; margin-top: 5px;">ESTABLISHED APRIL 2025 • UNIVERSE 2026</div>
+        <h1 style="margin:0; letter-spacing: 5px;">PINE & PINO</h1>
+        <div style="font-size: 10px; opacity: 0.8; margin-top: 5px; letter-spacing: 2px;">SINCE APRIL 2025 • UNIVERSE 2026</div>
     </div>
 
     <div class="container">
         
         <div id="p1" class="halaman aktif">
             <div class="card" style="text-align:center;">
-                <div style="font-size: 11px; opacity: 0.5; letter-spacing: 2px;">KITA TELAH BERSAMA SELAMA</div>
+                <div style="font-size: 11px; opacity: 0.5; letter-spacing: 2px;">HARI-HARI BERSAMAMU</div>
                 <div id="timer" style="font-size:45px; font-weight:900; color:var(--pink); margin:10px 0;">0 HARI</div>
-                <div style="display:flex; gap:10px; margin-top:10px;">
-                    <button id="user-pine" class="btn" style="background:var(--pink); color:white;" onclick="setUser('pine')">PINE 🌸</button>
-                    <button id="user-pino" class="btn" style="background:#eee; color:#666;" onclick="setUser('pino')">PINO 🌲</button>
+                <div style="display:flex; gap:12px; margin-top:10px;">
+                    <button id="btn-pine" class="btn btn-pink" onclick="setUser('pine')">PINE 🌸</button>
+                    <button id="btn-pino" class="btn btn-ghost" onclick="setUser('pino')">PINO 🌲</button>
                 </div>
             </div>
             <div class="card">
-                <h3 style="margin:0; font-size:16px;">Mood Matcher Hari Ini 🌈</h3>
-                <div style="display:flex; justify-content:space-around; margin-top:20px; font-size:30px;">
+                <h3 style="margin:0; font-size:16px; text-align:center;">Mood Matcher 🌈</h3>
+                <div style="display:flex; justify-content:space-around; margin-top:20px; font-size:35px;">
                     <span style="cursor:pointer;" onclick="setMood('🥰')">🥰</span>
                     <span style="cursor:pointer;" onclick="setMood('😋')">😋</span>
                     <span style="cursor:pointer;" onclick="setMood('🥺')">🥺</span>
                     <span style="cursor:pointer;" onclick="setMood('😤')">😤</span>
                 </div>
-                <p id="status-mood" style="text-align:center; font-size:12px; margin-top:15px; opacity:0.6;">Bagaimana perasaan anda sekarang?</p>
+                <p id="mood-val" style="text-align:center; font-size:12px; margin-top:15px; font-style:italic; opacity:0.6;">Bagaimana perasaanmu hari ini?</p>
             </div>
         </div>
 
         <div id="p2" class="halaman">
             <div class="card">
-                <h3 id="month-label" style="margin:0 0 15px 0; color:var(--pink); text-align:center;">Bulan</h3>
+                <h3 id="month-label" style="margin:0 0 15px 0; color:var(--pink); text-align:center;">Februari 2026</h3>
                 <div class="grid-cal">
                     <div class="day-header" style="color:red;">Min</div><div class="day-header">Sen</div><div class="day-header">Sel</div>
                     <div class="day-header">Rab</div><div class="day-header">Kam</div><div class="day-header">Jum</div><div class="day-header">Sab</div>
                 </div>
                 <div class="grid-cal" id="calendar-grid"></div>
-                <div style="margin-top:20px; font-size:10px; text-align:center; opacity:0.5;">
-                    <span style="color:red;">● Merah: Cuti Umum (Klik untuk sejarah)</span>
+                <div style="margin-top:20px; font-size:10px; opacity:0.6; text-align:center; line-height:1.5;">
+                    <span style="color:red;">● Tanggal Merah (Klik untuk sejarah)</span><br>
+                    <span>● Absen hanya bisa dilakukan di hari yang sama</span>
                 </div>
             </div>
         </div>
 
         <div id="p3" class="halaman">
             <div class="card">
-                <h3 style="margin:0 0 15px 0;">Kirim Pesan Manis 💌</h3>
-                <textarea id="mail-text" rows="4" style="width:100%; border:2px solid var(--soft); border-radius:20px; padding:15px; outline:none; box-sizing:border-box; font-family:inherit;" placeholder="Tulis sesuatu untuknya..."></textarea>
-                <button class="btn btn-pink" onclick="sendLetter()">Simpan di Kotak Hati</button>
+                <h3 style="margin:0 0 15px 0;">Kirim Pesan Rahasia 💌</h3>
+                <textarea id="mail-input" rows="4" style="width:100%; border:2px solid var(--soft); border-radius:20px; padding:15px; outline:none; box-sizing:border-box; font-family:inherit;" placeholder="Tulis sesuatu untuknya..."></textarea>
+                <button class="btn btn-pink" style="margin-top:10px;" onclick="sendMail()">Kirim Ke Hati</button>
             </div>
-            <div id="mail-box-list"></div>
+            <div id="mail-display"></div>
         </div>
 
         <div id="p4" class="halaman">
             <div class="card">
-                <h3 style="margin:0;">Tahap Kekompakan 📈</h3>
-                <div class="p-bar"><div class="p-fill" id="goal-bar"></div></div>
-                <div id="goal-list" style="margin-top:20px;">
-                    <div style="display:flex; align-items:center; gap:12px; margin-bottom:15px; background:var(--soft); padding:15px; border-radius:20px;">
-                        <input type="checkbox" onchange="updateBar()"> <span>Ucapkan Selamat Pagi</span>
+                <h3 style="margin:0;">Kekompakan Kita 📈</h3>
+                <div class="p-bar"><div class="p-fill" id="goal-fill"></div></div>
+                <div id="goal-items" style="margin-top:20px;">
+                    <div style="display:flex; align-items:center; gap:15px; background:var(--soft); padding:15px; border-radius:20px; margin-bottom:12px;">
+                        <input type="checkbox" onchange="updateGoal()"> <span>Ucapkan Selamat Pagi ☀️</span>
                     </div>
-                    <div style="display:flex; align-items:center; gap:12px; margin-bottom:15px; background:var(--soft); padding:15px; border-radius:20px;">
-                        <input type="checkbox" onchange="updateBar()"> <span>Hantar Foto Makanan</span>
+                    <div style="display:flex; align-items:center; gap:15px; background:var(--soft); padding:15px; border-radius:20px; margin-bottom:12px;">
+                        <input type="checkbox" onchange="updateGoal()"> <span>Ingatkan Makan Siang 🍱</span>
                     </div>
-                    <div style="display:flex; align-items:center; gap:12px; margin-bottom:15px; background:var(--soft); padding:15px; border-radius:20px;">
-                        <input type="checkbox" onchange="updateBar()"> <span>Deep Talk 10 Minit</span>
+                    <div style="display:flex; align-items:center; gap:15px; background:var(--soft); padding:15px; border-radius:20px;">
+                        <input type="checkbox" onchange="updateGoal()"> <span>Deep Talk 15 Menit 🌙</span>
                     </div>
                 </div>
             </div>
@@ -150,26 +156,26 @@
         <div id="p5" class="halaman">
             <div class="card" style="text-align:center;">
                 <h3 style="margin-bottom:20px;">Radio Pine & Pino 🎵</h3>
-                <div style="font-size:60px; margin:20px 0;">📻</div>
-                <div style="font-weight:bold; font-size:18px;">Perfect - Ed Sheeran</div>
-                <div style="font-size:12px; opacity:0.5; margin-bottom:20px;">Playlist Rasmi Kita</div>
-                <audio id="bg-audio" src="https://www.bensound.com/bensound-music/bensound-love.mp3" loop></audio>
-                <button class="btn btn-pink" onclick="toggleMusic()" id="music-btn">PUTAR MUZIK</button>
+                <div style="font-size:70px; margin:20px 0;">📻</div>
+                <div style="font-weight:bold; font-size:20px;">Perfect</div>
+                <div style="font-size:12px; opacity:0.5; margin-bottom:30px;">Ed Sheeran (Our Anthem)</div>
+                <audio id="audio-player" src="https://www.bensound.com/bensound-music/bensound-love.mp3" loop></audio>
+                <button class="btn btn-pink" id="play-btn" onclick="toggleMusic()">PUTAR MUSIK</button>
             </div>
         </div>
 
         <div id="p6" class="halaman">
             <div class="card">
-                <h3 style="margin-bottom:20px;">Kupon Kasih Sayang 🎫</h3>
-                <div style="padding:20px; border:3px dashed var(--pink); border-radius:20px; background:var(--soft); margin-bottom:15px; position:relative;">
+                <h3 style="margin-bottom:20px;">Kupon Spesial 🎫</h3>
+                <div class="coupon">
                     <div style="font-weight:bold;">1x Free Ice Cream Date</div>
-                    <small>Gunakan bila kita berjumpa nanti!</small>
-                    <button class="btn btn-pink" style="width:auto; padding:5px 15px; position:absolute; right:10px; top:15px; font-size:10px;" onclick="this.innerHTML='USED'; this.style.opacity='0.5'">KLAIM</button>
+                    <small>Berlaku selamanya sampai kita ketemu!</small>
+                    <button class="btn btn-pink" style="width:auto; padding:5px 15px; position:absolute; right:15px; top:15px; font-size:10px;" onclick="this.innerHTML='USED'; this.style.opacity='0.5'">Klaim</button>
                 </div>
-                <div style="padding:20px; border:3px dashed var(--pink); border-radius:20px; background:var(--soft); position:relative;">
-                    <div style="font-weight:bold;">1x Bebas Pilih Filem</div>
-                    <small>Pino/Pine tak boleh membantah!</small>
-                    <button class="btn btn-pink" style="width:auto; padding:5px 15px; position:absolute; right:10px; top:15px; font-size:10px;" onclick="this.innerHTML='USED'; this.style.opacity='0.5'">KLAIM</button>
+                <div class="coupon">
+                    <div style="font-weight:bold;">1x Bebas Pilih Film</div>
+                    <small>Pasangan tidak boleh mengeluh!</small>
+                    <button class="btn btn-pink" style="width:auto; padding:5px 15px; position:absolute; right:15px; top:15px; font-size:10px;" onclick="this.innerHTML='USED'; this.style.opacity='0.5'">Klaim</button>
                 </div>
             </div>
         </div>
@@ -177,123 +183,137 @@
     </div>
 
     <div class="nav-bar">
-        <div class="nav-link active" onclick="navigate(0, 'p1')">🏠</div>
-        <div class="nav-link" onclick="navigate(1, 'p2')">📅</div>
-        <div class="nav-link" onclick="navigate(2, 'p3')">💌</div>
-        <div class="nav-link" onclick="navigate(3, 'p4')">🎯</div>
-        <div class="nav-link" onclick="navigate(4, 'p5')">🎵</div>
-        <div class="nav-link" onclick="navigate(5, 'p6')">🎫</div>
+        <div class="nav-link active" onclick="nav(0, 'p1')">🏠</div>
+        <div class="nav-link" onclick="nav(1, 'p2')">📅</div>
+        <div class="nav-link" onclick="nav(2, 'p3')">💌</div>
+        <div class="nav-link" onclick="nav(3, 'p4')">🎯</div>
+        <div class="nav-link" onclick="nav(4, 'p5')">🎵</div>
+        <div class="nav-link" onclick="nav(5, 'p6')">🎫</div>
     </div>
 </div>
 
 <script>
     let activeUser = 'pine';
-    let data = JSON.parse(localStorage.getItem('pp_final_db')) || { pine_dates:[], pino_dates:[], messages:[] };
+    let db = JSON.parse(localStorage.getItem('pine_pino_2026')) || { pine:[], pino:[], mail:[] };
 
     const holidays = {
-        "2026-1-1": { t: "Tahun Baru 2026", d: "Permulaan 365 hari baru untuk kita! Tradisi ini bermula dari kalendar Rom kuno sebagai simbol harapan baru." },
-        "2026-3-20": { t: "Hari Raya Idul Fitri", d: "Hari kemenangan selepas sebulan berpuasa. Bermula sejak zaman Nabi Muhammad SAW sebagai tanda kesyukuran." },
-        "2026-5-1": { t: "Hari Pekerja", d: "Menghargai usaha pekerja di seluruh dunia. Bermula dari gerakan buruh di Chicago tahun 1886." },
-        "2026-8-31": { t: "Hari Kebangsaan", d: "Hari kemerdekaan tanah air tercinta. Simbol keberanian dan perpaduan rakyat menuntut kebebasan." },
-        "2026-12-25": { t: "Hari Krismas", d: "Peringatan kelahiran Yesus Kristus, disambut dengan semangat memberi dan kasih sayang di seluruh dunia." }
+        "2026-1-1": { t: "Tahun Baru Masehi", d: "Awal perjalanan 365 hari baru kita. Dirayakan pertama kali oleh bangsa Romawi kuno untuk menghormati Dewa Janus." },
+        "2026-3-20": { t: "Idul Fitri 1447H", d: "Hari kemenangan setelah sebulan berjuang menahan nafsu. Momen kembali suci dan saling memaafkan." },
+        "2026-5-1": { t: "Hari Buruh", d: "Penghormatan bagi seluruh pekerja. Berasal dari aksi buruh di Chicago (1886) menuntut jam kerja yang adil." },
+        "2026-8-17": { t: "HUT RI ke-81", d: "Proklamasi Kemerdekaan Indonesia. Hasil perjuangan tulus pahlawan merebut kebebasan dari penjajah." },
+        "2026-12-25": { t: "Hari Natal", d: "Peringatan kelahiran Yesus Kristus. Membawa pesan damai, sukacita, dan cinta kasih bagi dunia." }
     };
 
     async function startApp() {
         try {
-            const stream = await navigator.mediaDevices.getUserMedia({video:{facingMode:"user"}});
-            document.getElementById('webcam').srcObject = stream;
+            const s = await navigator.mediaDevices.getUserMedia({video:{facingMode:"user"}});
+            document.getElementById('webcam').srcObject = s;
             setTimeout(() => {
                 document.getElementById('face-id-screen').style.opacity = '0';
                 setTimeout(() => {
                     document.getElementById('face-id-screen').style.display = 'none';
                     document.getElementById('main-content').style.display = 'block';
                     init();
-                }, 1000);
+                }, 800);
             }, 3000);
-        } catch(e) { alert("Butuh akses kamera untuk pengesahan!"); }
+        } catch(e) { alert("Butuh izin kamera untuk Verifikasi Cinta!"); }
     }
 
     function init() {
         const start = new Date("2025-04-22");
         const diff = Math.floor((new Date() - start) / (1000 * 60 * 60 * 24));
         document.getElementById('timer').innerText = diff + " HARI";
-        renderCalendar();
-        renderMessages();
+        renderCal();
+        renderMail();
     }
 
-    // --- NAVIGASI UTAMA ---
-    function navigate(index, pageId) {
-        // Sembunyikan semua halaman
+    // --- NAVIGASI ---
+    function nav(idx, id) {
         document.querySelectorAll('.halaman').forEach(h => h.classList.remove('aktif'));
-        // Hilangkan status aktif navbar
         document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
-        
-        // Aktifkan yang dipilih
-        document.getElementById(pageId).classList.add('aktif');
-        document.querySelectorAll('.nav-link')[index].classList.add('active');
-        
-        if(navigator.vibrate) navigator.vibrate(10); // Getaran halus navbar
+        document.getElementById(id).classList.add('aktif');
+        document.querySelectorAll('.nav-link')[idx].classList.add('active');
+        if(navigator.vibrate) navigator.vibrate(10);
         window.scrollTo(0,0);
     }
 
     function setUser(u) {
         activeUser = u;
-        document.getElementById('user-pine').style.background = u=='pine'?'var(--pink)':'#eee';
-        document.getElementById('user-pine').style.color = u=='pine'?'white':'#666';
-        document.getElementById('user-pino').style.background = u=='pino'?'var(--biru)':'#eee';
-        document.getElementById('user-pino').style.color = u=='pino'?'white':'#666';
-        renderCalendar();
+        document.getElementById('btn-pine').className = u=='pine'?'btn btn-pink':'btn btn-ghost';
+        document.getElementById('btn-pino').className = u=='pino'?'btn btn-pink':'btn btn-ghost';
+        renderCal();
     }
 
-    function renderCalendar() {
+    // --- KALENDER REAL-TIME (ABSEN & BATAL) ---
+    function renderCal() {
         const grid = document.getElementById('calendar-grid');
-        const now = new Date(); const y = 2026, m = now.getMonth();
+        const now = new Date();
+        const y = 2026, m = now.getMonth();
+        const todayD = now.getDate();
+        const todayM = now.getMonth();
+        
         document.getElementById('month-label').innerText = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"][m] + " " + y;
         
         grid.innerHTML = "";
-        const firstDay = new Date(y, m, 1).getDay();
-        const totalDays = new Date(y, m + 1, 0).getDate();
+        const first = new Date(y, m, 1).getDay();
+        const days = new Date(y, m + 1, 0).getDate();
 
-        for (let i = 0; i < firstDay; i++) grid.innerHTML += `<div></div>`;
+        for (let i = 0; i < first; i++) grid.innerHTML += `<div></div>`;
 
-        for (let d = 1; d <= totalDays; d++) {
-            const dateKey = `${y}-${m+1}-${d}`;
-            const isHoliday = holidays[dateKey];
+        for (let d = 1; d <= days; d++) {
+            const key = `${y}-${m+1}-${d}`;
+            const holiday = holidays[key];
+            const isToday = (d === todayD && m === todayM);
             const dayOfWeek = new Date(y, m, d).getDay();
             
             let cls = "date";
-            if(data.pine_dates.includes(dateKey)) cls += " filled-pine";
-            if(data.pino_dates.includes(dateKey)) cls += " filled-pino";
-            if(isHoliday || dayOfWeek === 0) cls += " holiday";
+            if(db.pine.includes(key)) cls += " filled-pine";
+            if(db.pino.includes(key)) cls += " filled-pino";
+            if(holiday || dayOfWeek === 0) cls += " holiday";
+            if(isToday) cls += " current-day";
 
             const el = document.createElement('div');
             el.className = cls;
             el.innerHTML = `<span>${d}</span>`;
+            
             el.onclick = () => {
-                if(isHoliday) {
-                    document.getElementById('m-title').innerText = isHoliday.t;
-                    document.getElementById('m-desc').innerText = isHoliday.d;
+                if(holiday) {
+                    document.getElementById('m-title').innerText = holiday.t;
+                    document.getElementById('m-desc').innerText = holiday.d;
                     document.getElementById('modal').style.display = 'flex';
+                } else if(isToday) {
+                    toggleAbsen(key);
                 } else {
-                    const dbKey = activeUser == 'pine' ? 'pine_dates' : 'pino_dates';
-                    if(!data[dbKey].includes(dateKey)) { data[dbKey].push(dateKey); save(); renderCalendar(); }
+                    alert("Kamu hanya bisa absen atau membatalkan untuk hari ini saja ya! ❤️");
                 }
             };
             grid.appendChild(el);
         }
     }
 
-    function sendLetter() {
-        const text = document.getElementById('mail-text').value;
-        if(text) {
-            data.messages.unshift({ u: activeUser, t: text, d: new Date().toLocaleDateString() });
-            document.getElementById('mail-text').value = "";
-            save(); renderMessages();
+    function toggleAbsen(key) {
+        const userKey = activeUser == 'pine' ? 'pine' : 'pino';
+        const idx = db[userKey].indexOf(key);
+        if(idx > -1) {
+            db[userKey].splice(idx, 1); // Batal absen
+        } else {
+            db[userKey].push(key); // Absen
+        }
+        save(); renderCal();
+    }
+
+    // --- MAILBOX ---
+    function sendMail() {
+        const val = document.getElementById('mail-input').value;
+        if(val) {
+            db.mail.unshift({ u: activeUser, t: val, d: new Date().toLocaleDateString() });
+            document.getElementById('mail-input').value = "";
+            save(); renderMail();
         }
     }
 
-    function renderMessages() {
-        document.getElementById('mail-box-list').innerHTML = data.messages.map(m => `
+    function renderMail() {
+        document.getElementById('mail-display').innerHTML = db.mail.map(m => `
             <div class="card" style="border-left:8px solid ${m.u=='pine'?'var(--pink)':'var(--biru)'}; text-align:left;">
                 <small style="opacity:0.4;">${m.d} - DARI ${m.u.toUpperCase()}</small>
                 <p style="margin-top:5px;">${m.t}</p>
@@ -301,24 +321,25 @@
         `).join('');
     }
 
+    // --- OTHERS ---
     function toggleMusic() {
-        const a = document.getElementById('bg-audio');
-        const b = document.getElementById('music-btn');
-        if(a.paused) { a.play(); b.innerText = "HENTIKAN MUZIK"; }
-        else { a.pause(); b.innerText = "PUTAR MUZIK"; }
+        const a = document.getElementById('audio-player');
+        const b = document.getElementById('play-btn');
+        if(a.paused) { a.play(); b.innerText = "PAUSE MUSIC"; }
+        else { a.pause(); b.innerText = "PLAY MUSIC"; }
+    }
+
+    function updateGoal() {
+        const all = document.querySelectorAll('#goal-items input').length;
+        const check = document.querySelectorAll('#goal-items input:checked').length;
+        document.getElementById('goal-fill').style.width = (check/all*100) + "%";
     }
 
     function setMood(m) {
-        document.getElementById('status-mood').innerText = "Mood Pine & Pino: " + m;
+        document.getElementById('mood-val').innerText = "Mood kita: " + m;
     }
 
-    function updateBar() {
-        const total = document.querySelectorAll('#goal-list input').length;
-        const checked = document.querySelectorAll('#goal-list input:checked').length;
-        document.getElementById('goal-bar').style.width = (checked/total*100) + "%";
-    }
-
-    function save() { localStorage.setItem('pp_final_db', JSON.stringify(data)); }
+    function save() { localStorage.setItem('pine_pino_2026', JSON.stringify(db)); }
 </script>
 </body>
 </html>
