@@ -16,7 +16,7 @@
         body, html {
             margin: 0; padding: 0;
             background-color: var(--bg-romantis);
-            font-family: 'Segoe UI', sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             color: var(--teks);
             overflow-x: hidden;
         }
@@ -26,7 +26,7 @@
             position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
             background: linear-gradient(135deg, var(--pink-cewek) 0%, var(--biru-cowok) 100%);
             display: flex; flex-direction: column; justify-content: center; align-items: center;
-            z-index: 1000; transition: 1s; color: white; cursor: pointer; text-align: center;
+            z-index: 1000; transition: 0.8s; color: white; cursor: pointer; text-align: center;
         }
 
         /* --- NAVIGASI --- */
@@ -48,7 +48,7 @@
 
         /* --- USER SELECTOR --- */
         .user-selector { display: flex; gap: 10px; margin-bottom: 15px; }
-        .user-btn { flex: 1; padding: 10px; border-radius: 10px; border: 1px solid #eee; cursor: pointer; text-align: center; font-weight: bold; }
+        .user-btn { flex: 1; padding: 10px; border-radius: 12px; border: 1px solid #eee; cursor: pointer; text-align: center; font-weight: bold; transition: 0.3s; }
         .user-btn.pine.active { background: var(--pink-cewek); color: white; border-color: var(--pink-cewek); }
         .user-btn.pino.active { background: var(--biru-cowok); color: white; border-color: var(--biru-cowok); }
 
@@ -65,13 +65,13 @@
         .cell-event { background: #fff0f3; color: var(--pink-cewek); border: 1px solid var(--pink-cewek); }
         .cell-finish { background: #ffd700; font-size: 14px; }
         .token {
-            width: 25px; height: 25px; border-radius: 50%; border: 2px solid white;
+            width: 22px; height: 22px; border-radius: 50%; border: 2px solid white;
             position: absolute; z-index: 10; transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
         .token-pine { background: var(--pink-cewek); transform: translate(-4px, -4px); }
         .token-pino { background: var(--biru-cowok); transform: translate(4px, 4px); }
 
-        .btn { border: none; padding: 12px; border-radius: 12px; width: 100%; font-weight: bold; cursor: pointer; color: white; }
+        .btn { border: none; padding: 12px; border-radius: 12px; width: 100%; font-weight: bold; cursor: pointer; color: white; transition: 0.3s; }
         
         /* Grid Absen */
         .grid-absen { display: grid; grid-template-columns: repeat(15, 1fr); gap: 3px; }
@@ -92,20 +92,21 @@
     <div class="container">
         <div class="card" style="text-align:center;">
             <h2 id="timer" style="color: var(--pink-cewek); margin:0;">... Hari</h2>
-            <p style="font-size:14px; opacity:0.7;">Bersama Sejak 01 Januari 2024</p>
+            <p style="font-size:12px; opacity:0.6; margin-top:5px;">Sejak 22 Maret 2025</p>
             <div class="user-selector" style="margin-top:15px;">
                 <div id="sel-pine" class="user-btn pine active" onclick="setUser('pine')">PINE 🌸</div>
                 <div id="sel-pino" class="user-btn pino" onclick="setUser('pino')">PINO 🌲</div>
             </div>
         </div>
         <div class="card">
-            <h3>📸 Kalender LDR</h3>
+            <h3 style="margin-top:0;">📸 Kalender LDR</h3>
             <div style="margin-top:10px;">
-                <p style="font-size: 11px; font-weight: bold; color: var(--pink-cewek);">Progress Pine 🌸</p>
+                <p style="font-size: 11px; font-weight: bold; color: var(--pink-cewek); margin-bottom:5px;">Progress Pine 🌸</p>
                 <div class="grid-absen" id="grid-pine"></div>
-                <p style="font-size: 11px; font-weight: bold; color: var(--biru-cowok); margin-top:15px;">Progress Pino 🌲</p>
+                <p style="font-size: 11px; font-weight: bold; color: var(--biru-cowok); margin-top:15px; margin-bottom:5px;">Progress Pino 🌲</p>
                 <div class="grid-absen" id="grid-pino"></div>
             </div>
+            <button class="btn" id="btn-absen" style="margin-top:20px;" onclick="tambahAbsen()">Absen Hari Ini</button>
         </div>
     </div>
 </div>
@@ -116,7 +117,7 @@
             <h3>✨ Bucket List</h3>
             <div id="list-wish"></div>
             <div style="display:flex; gap:5px; margin-top:10px;">
-                <input type="text" id="input-wish" placeholder="Tambah janji baru..." style="flex:1; padding:10px; border-radius:10px; border:1px solid #ddd; outline:none;">
+                <input type="text" id="input-wish" placeholder="Tambah janji baru..." style="flex:1; padding:12px; border-radius:10px; border:1px solid #ddd; outline:none;">
                 <button id="btn-wish" class="btn" style="width:50px; background:var(--pink-cewek);" onclick="tambahWish()">+</button>
             </div>
         </div>
@@ -150,26 +151,30 @@
     let pinePos = 0;
     let pinoPos = 0;
 
+    // Setting Tanggal Jadian
+    const TANGGAL_JADIAN = "2025/03/22";
+
     const specialCells = {
         3: "Awal yang manis! Sebutkan 1 hal yang kamu suka dari dia. ❤️",
         5: "Oops! Mundur 2 langkah karena terlalu kangen. 🏃‍♂️",
         8: "Kirim emoji 'Love' paling banyak ke chat dia sekarang! 🌸",
         12: "ZONA NYAMAN: Maju 3 langkah karena kamu bikin dia bahagia! ✨",
         15: "TANTANGAN: Kirim PAP muka jelek kamu sekarang juga! 📸",
-        18: "Hampir sampai! Bilang 'I Love You' lewat VN. 🎤"
+        18: "Hampir sampai! Bilang 'I Love You' lewat voice note. 🎤"
     };
 
     let db = JSON.parse(localStorage.getItem('pinePinoUltimate')) || {
-        pineAbsen: 0, pinoAbsen: 0, tglJadian: "2024-01-01", wishlist: []
+        pineAbsen: 0, pinoAbsen: 0, wishlist: []
     };
 
     function bukaWeb() {
-        document.getElementById('sampul').style.opacity = '0';
+        const sampul = document.getElementById('sampul');
+        sampul.style.opacity = '0';
         setTimeout(() => {
-            document.getElementById('sampul').style.display = 'none';
+            sampul.style.display = 'none';
             document.getElementById('menu').style.display = 'flex';
             initApp();
-        }, 800);
+        }, 500);
     }
 
     function initApp() {
@@ -193,6 +198,7 @@
         document.getElementById('sel-' + u).classList.add('active');
         const warna = u === 'pine' ? 'var(--pink-cewek)' : 'var(--biru-cowok)';
         document.getElementById('btn-wish').style.backgroundColor = warna;
+        document.getElementById('btn-absen').style.backgroundColor = warna;
     }
 
     function createBoard() {
@@ -235,7 +241,7 @@
                     if (user === 'pine') pinePos += 3; else pinoPos += 3;
                     updateTokens();
                 }
-            }, 600);
+            }, 500);
         }
     }
 
@@ -254,8 +260,17 @@
     }
 
     function hitungHari() {
-        const hari = Math.floor((new Date() - new Date(db.tglJadian)) / (1000*60*60*24));
-        document.getElementById('timer').innerText = `${hari} Hari Bersama ❤️`;
+        const tgl = new Date(TANGGAL_JADIAN);
+        const hari = Math.floor((new Date() - tgl) / (1000 * 60 * 60 * 24));
+        const displayHari = hari < 0 ? 0 : hari;
+        document.getElementById('timer').innerText = `${displayHari} Hari Bersama ❤️`;
+    }
+
+    function tambahAbsen() {
+        if(currentUser === 'pine') db.pineAbsen++; else db.pinoAbsen++;
+        saveDB();
+        renderGrids();
+        alert("Absen berhasil! Tetap semangat LDR-nya ya! ✨");
     }
 
     function tambahWish() {
@@ -264,10 +279,31 @@
             db.wishlist.push({ teks: isi, oleh: currentUser }); 
             renderWishlist(); 
             document.getElementById('input-wish').value=''; 
-            localStorage.setItem('pinePinoUltimate', JSON.stringify(db));
+            saveDB();
         }
     }
 
     function renderWishlist() {
         document.getElementById('list-wish').innerHTML = db.wishlist.map(w => `
-            <div style="font-size:12px; margin-bottom:5px; padding:10px; background:#fdf2
+            <div style="font-size:12px; margin-bottom:5px; padding:10px; background:#fdf2f4; border-radius:10px; border-left: 4px solid ${w.oleh === 'pine' ? 'var(--pink-cewek)' : 'var(--biru-cowok)'}">
+                <b>${w.oleh.toUpperCase()}:</b> ${w.teks}
+            </div>
+        `).join('');
+    }
+
+    function renderGrids() {
+        const gp = document.getElementById('grid-pine');
+        const gpo = document.getElementById('grid-pino');
+        gp.innerHTML = ''; gpo.innerHTML = '';
+        for(let i=0; i<365; i++) {
+            let dp = document.createElement('div'); dp.className = 'hari' + (i < db.pineAbsen ? ' pine-active' : ''); gp.appendChild(dp);
+            let dpo = document.createElement('div'); dpo.className = 'hari' + (i < db.pinoAbsen ? ' pino-active' : ''); gpo.appendChild(dpo);
+        }
+    }
+
+    function saveDB() {
+        localStorage.setItem('pinePinoUltimate', JSON.stringify(db));
+    }
+</script>
+</body>
+</html>
