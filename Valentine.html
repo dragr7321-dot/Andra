@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For My Little Bear 🐻</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Pacifico&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --dark-choco: #5d4037;
+            --wa-bg: #0b141a; 
+            --wa-green: #005c4b;
+            --wa-white: #202c33;
+            --wa-text: #e9edef;
+        }
+
+        body, html { margin: 0; padding: 0; font-family: 'Poppins', sans-serif; background: #000; overflow-x: hidden; }
+
+        /* --- KALENDER --- */
+        #calendar-screen {
+            height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; background: #fdf5e6;
+            transition: transform 1.5s ease-in, opacity 1s;
+        }
+        .calendar { background: white; padding: 20px; border-radius: 15px; border: 4px solid #8d6e63; text-align: center; }
+        .v-day { background: #ffebee; color: #d32f2f; position: relative; padding: 10px; font-weight: bold; border-radius: 5px; }
+        .circle-anim { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 0; height: 0; border: 3px solid #d32f2f; border-radius: 50%; transition: 0.8s ease; }
+
+        /* --- WA CHAT --- */
+        #chat-screen { display: none; background: var(--wa-bg); height: 100vh; flex-direction: column; padding: 10px; box-sizing: border-box; color: var(--wa-text); }
+        .chat-container { flex-grow: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; padding: 10px; }
+        .bubble { max-width: 85%; padding: 10px 14px; border-radius: 12px; font-size: 0.88rem; line-height: 1.5; opacity: 0; transform: translateY(15px); transition: 0.4s forwards; }
+        .left { align-self: flex-start; background: var(--wa-white); border-top-left-radius: 2px; }
+        .right { align-self: flex-end; background: var(--wa-green); border-top-right-radius: 2px; }
+        .chat-date { text-align: center; font-size: 0.72rem; color: #8696a0; margin: 15px 0; background: #182229; padding: 4px 12px; border-radius: 8px; align-self: center; }
+        
+        .eng-thankyou { color: #00a884; font-style: italic; text-align: center; font-size: 0.9rem; margin-top: 20px; opacity: 0; transition: 2s; }
+
+        /* --- FINAL --- */
+        #final-screen { display: none; height: 100vh; text-align: center; justify-content: center; align-items: center; flex-direction: column; opacity: 0; transition: 2s; background: #fdf5e6; }
+        .final-box { background: white; padding: 25px; border-radius: 30px; border: 6px solid var(--dark-choco); margin: 15px; max-width: 350px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        .choco-img { width: 100%; border-radius: 15px; margin-bottom: 15px; }
+        button { padding: 12px 25px; border: none; border-radius: 25px; cursor: pointer; font-weight: bold; font-family: 'Poppins'; }
+        #yesBtn { background: var(--dark-choco); color: white; margin-top: 15px; width: 100%; }
+        #noBtn { background: #ccc; position: absolute; font-size: 0.8rem; }
+
+        .zoom-effect { transform: scale(25); opacity: 0; pointer-events: none; }
+    </style>
+</head>
+<body>
+
+    <div id="calendar-screen">
+        <h2 style="color: var(--dark-choco);">Bentar, hari ini...</h2>
+        <div class="calendar">
+            <div style="background: var(--dark-choco); color: white; padding: 8px; margin: -20px -20px 10px -20px; border-radius: 10px 10px 0 0;">FEBRUARI 2026</div>
+            <div style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px;">
+                <span>8</span><span>9</span><span>10</span><span>11</span><span>12</span><span>13</span>
+                <span class="v-day" id="tgl14">14<div class="circle-anim" id="circle"></div></span>
+            </div>
+        </div>
+    </div>
+
+    <div id="chat-screen">
+        <div class="chat-container" id="chatContainer"></div>
+        <div id="englishText" class="eng-thankyou">
+            And now, you are still here with me.<br>
+            Thank you for staying, for understanding, and for being the best part of my journey. ❤️
+        </div>
+        <button id="nextBtn" onclick="goToFinal()" style="display:none; background: #00a884; color: white; padding: 12px; border:none; border-radius: 8px; font-weight: bold; margin: 20px auto; width: 90%;">Open My Heart 🍫</button>
+    </div>
+
+    <div id="final-screen">
+        <div class="final-box">
+            <img src="https://images.unsplash.com/photo-1549007994-cb92caebd54b?q=80&w=1000&auto=format&fit=crop" class="choco-img">
+            <h1 style="font-family: 'Pacifico'; font-size: 1.5rem;">Be My Valentine? 🍫</h1>
+            <p style="font-size: 0.85rem; color: #555;">Karena kamu adalah paket lengkap yang nggak akan pernah aku sia-siakan. Aku beneran sanggup 100% buat kamu.</p>
+            <div style="height: 60px; position: relative; margin-top: 20px;">
+                <button id="yesBtn" onclick="celebrate()">MAU! ❤️</button>
+                <button id="noBtn" onmouseover="moveNo()">Nggak</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const chatData = [
+            { type: 'date', msg: '23 Mei 2025' },
+            { side: 'right', msg: 'Good morning sayangg' },
+            { side: 'left', msg: 'good morning too sayaangg' },
+            { side: 'left', msg: 'selamat ulang tahun, cinta... hari ini adalah hari spesial, hari di mana orang paling menyenangkan, paling unik, dan paling bikin aku senyum tanpa alasan lahir ke dunia. Iya, kamu yang susah ditebak, tapi justru itulah yang bikin aku selalu penasaran dan makin sayang.' },
+            { side: 'left', msg: 'terima kasih ya, udah hadir di hidup aku. terima kasih udah jadi tempat aku cerita, tempat aku ngeluh, dan juga tempat aku bahagia. kamu itu kayak paket lengkap kadang nyebelin, kadang lucu, kadang bikin pengen jitak, tapi selalu bikin kangen dan gak bisa jauh.' },
+            
+            { type: 'date', msg: '18 Agustus 2025 (Deep Talk)' },
+            { side: 'right', msg: 'Mau aku coba keluarin topik pribadi?' },
+            { side: 'left', msg: 'emang bolee?' },
+            { side: 'right', msg: 'Kalo sama kamu aku ga keberatan. Aku mulai yaa' },
+            { side: 'right', msg: 'Kamu tau ga si aku punya pengalaman yang orang lain ga punya' },
+            { side: 'left', msg: 'emangg apaahh???' },
+            { side: 'right', msg: 'Pernah 2 kali hadir di pernikahan orang tua' },
+            { side: 'left', msg: 'HAHH???' },
+            { side: 'left', msg: 'syokk bangettt' },
+            { side: 'right', msg: 'Deep talk emang gitu. Kalo kamu ga siap jangan deh' },
+            { side: 'left', msg: 'iyyaaa ga siapp bangett. kloo deptalk hubungan gimana?' },
+            { side: 'right', msg: 'Kalo deep talk hubungan itu kita udah pernah tapi secara singkat. Kaya aku minta kamu ngeluarin ego itu kemasuk deep talk. Karna aku ga nyaman kalo kamu nahan nahan ego' },
+            
+            { type: 'date', msg: 'Our Commitment' },
+            { side: 'left', msg: 'aku pengennya hubungan yang santai tapi serius, yang nggak bikin tertekan tapi tetap jelas arahnya. Aku suka banget kalau aku diperlakukan dengan baik—dikasih perhatian, dihargai, dan dianggap penting. Aku takut banget diselingkuhin, apalagi karena hubungan kita virtual, jadi aku butuh rasa aman dari kamu, bukan harapan palsu atau digantungin terus.' },
+            { side: 'left', msg: 'Yang paling aku harapin sih, hubungan kita bisa saling jujur soal perasaan, komunikasi terus walau sibuk, dan kamu tetep treat aku dengan baik. Soalnya, menurutku cowok tuh punya peran penting banget buat bikin cewe-nya ngerasa aman dan dihargai.' },
+            { side: 'right', msg: 'Cuman itu?' },
+            { side: 'right', msg: 'Aku sanggup 100% tapi kamu temenin ok?' }
+        ];
+
+        setTimeout(() => {
+            document.getElementById('circle').style.width = '35px';
+            document.getElementById('circle').style.height = '35px';
+            setTimeout(() => {
+                document.getElementById('calendar-screen').classList.add('zoom-effect');
+                setTimeout(() => {
+                    document.getElementById('calendar-screen').style.display = 'none';
+                    startChat();
+                }, 1000);
+            }, 1800);
+        }, 1000);
+
+        function startChat() {
+            document.getElementById('chat-screen').style.display = 'flex';
+            let i = 0;
+            const container = document.getElementById('chatContainer');
+            
+            function addMessage() {
+                if (i < chatData.length) {
+                    const item = chatData[i];
+                    const element = document.createElement('div');
+                    if (item.type === 'date') {
+                        element.className = 'chat-date';
+                        element.innerText = item.msg;
+                    } else {
+                        element.className = `bubble ${item.side}`;
+                        element.innerText = item.msg;
+                    }
+                    container.appendChild(element);
+                    setTimeout(() => { element.style.opacity = '1'; element.style.transform = 'translateY(0)'; }, 50);
+                    container.scrollTop = container.scrollHeight;
+                    i++;
+                    
+                    let delay = item.msg ? item.msg.length * 35 : 1500;
+                    if (delay < 1800) delay = 1800;
+                    if (delay > 4500) delay = 4500;
+                    setTimeout(addMessage, delay);
+                } else {
+                    // Seteleh chat selesai, munculkan teks bahasa Inggris
+                    const eng = document.getElementById('englishText');
+                    eng.style.opacity = '1';
+                    setTimeout(() => {
+                        document.getElementById('nextBtn').style.display = 'block';
+                        container.scrollTop = container.scrollHeight;
+                    }, 2000);
+                }
+            }
+            addMessage();
+        }
+
+        function goToFinal() {
+            document.getElementById('chat-screen').style.display = 'none';
+            const final = document.getElementById('final-screen');
+            final.style.display = 'flex';
+            setTimeout(() => { final.style.opacity = '1'; }, 50);
+        }
+
+        function moveNo() {
+            const btn = document.getElementById('noBtn');
+            btn.style.left = Math.random() * 70 + '%';
+            btn.style.top = Math.random() * 70 + '%';
+        }
+
+        function celebrate() {
+            document.querySelector('.final-box').innerHTML = `
+                <h1 style='font-family:Pacifico;'>YAY! 🥰</h1>
+                <p>I Love You More, My Little Bear! 🐻</p>
+                <p style="font-size:0.8rem">Happy Valentine's Day!</p>
+            `;
+            document.body.style.background = "#ffebee";
+        }
+    </script>
+</body>
+</html>
